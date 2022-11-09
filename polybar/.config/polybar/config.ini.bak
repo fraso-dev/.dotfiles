@@ -1,0 +1,279 @@
+;----------------------------------------------------------
+;            COLORS
+;----------------------------------------------------------
+
+[colors]
+rounds =            #1e222a
+background =        ${xrdb:background}
+background-alt =    #444
+transparent =				#bb000000
+text =              #161821
+foreground =        ${xrdb:foreground}
+foreground-alt =    #555
+primary =           ${xrdb:color3}
+secondary =         ${xrdb:color2}
+alert =             #bd2c40
+magenta =           ${xrdb:color5}
+green =             ${xrdb:color2}
+blue =              ${xrdb:color4}
+red =               ${xrdb:color1}
+yellow =            ${xrdb:color3}
+cyan =              ${xrdb:color6}
+
+[bar/bar]
+monitor = ${env:MONITOR:}
+width = 100%
+height = 28
+fixed-center = true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+wm-restack = i3
+
+bottom = false
+
+spacing = 2
+
+scroll-up = i3wm-wsnext
+scroll-down = i3wm-wsprev
+
+;border-size = 4
+;border-color = ${colors.background}
+
+font-0 = JetBrains Mono Nerd Font:style=Regular:pixelsize=11;2
+font-1 = FontAwesome:style=Regular:pixelsize=12;2
+
+modules-left = powermenu wlan volume 
+modules-center = i3  
+modules-right = temp battery date 
+
+cursor-click = pointer
+cursor-scroll = 
+
+line-size = 3
+
+tray-position = right
+tray-padding = 2
+tray-background = ${colors.foreground-alt}
+
+separator = " | "
+separator-foreground = ${colors.foreground-alt}
+
+;----------------------------------------------------------
+;            M O D U L E S
+;----------------------------------------------------------
+
+;   (_)__ / __ __ ___ __  
+;   | ||_ \ \ V  V / '  \ 
+;   |_|___/  \_/\_/|_|_|_|
+;                         
+
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+
+; Only show workspaces on the same output as the bar
+pin-workspaces = true
+
+label-mode-padding = 5
+label-mode-foreground = #000
+label-mode-background = ${colors.foreground-alt}
+
+; focused = Active workspace on focused monitor
+label-focused = %name%
+label-focused-background = ${colors.background-alt}
+label-focused-foreground = ${colors.foreground}
+label-focused-padding = 1
+; unfocused = Inactive workspace on any monitor
+
+label-unfocused = %name%
+label-unfocused-padding = 1
+
+; visible = Active workspace on unfocused monitor
+label-visible = %name%
+
+; urgent = Workspace with urgency hint set
+label-urgent = %index%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 1
+
+; Separator in between workspaces
+;label-separator = |
+
+[module/temp]
+type = internal/temperature
+interval = 3.0
+thermal-zone = 0
+warn-temperature = 70
+
+format = <label>
+format-padding = 2
+format-underline = 
+format-warn = <label-warn>
+format-warn-padding = 2
+format-warn-foreground = ${colors.red}
+
+label = %temperature-c%
+label-warn =  %temperature-c%
+
+[module/wlan]
+type = internal/network
+interface = ${env:DEFAULT_NETWORK_INTERFACE} 
+interval = 1
+label-connected =  %{T2}%downspeed% %upspeed%
+format-disconnected-prefix = %{T2}
+format-disconnected-prefix-foreground = ${colors.foreground-alt}
+format-disconnected-prefix-padding = 1
+;format-disconnected-prefix-underline = ${colors.primary}
+format-disconnected = <label-disconnected>
+format-disconnected-padding = 1
+label-disconnected = " no connection"
+
+[module/date]
+type = internal/date
+interval = 60
+date = %a, %d %b
+date-alt = 
+time = %k:%M %p
+time-alt = 
+label = %date% %time%
+format = <label>
+format-padding = 2
+format-prefix = %{T2} 
+format-prefix-foreground = ${colors.foreground-alt}
+format-prefix-font = 3
+format-prefix-padding = 1
+
+; try adding user to video group (ex usermod -aG video $USER). if it doesnt work after logout chown and chgrp to user of /sys/class/backlight/amdgpu_bl1/brightness file
+[module/backlight]
+type = internal/backlight
+card = amdgpu_bl1
+use-actual-brightness = true
+enable-scroll = true
+format = %{A1:~/.dotfiles/bin/bin/backlight.sh:}<ramp> <label> %{A}
+;<bar>
+;format-prefix = "%{T2}  "
+;format-prefix-foreground = ${colors.primary}
+label =  %percentage%%
+
+ramp-foreground = ${colors.foreground-alt}
+
+ramp-0 = %{T2}
+ramp-1 = %{T2}
+ramp-2 = %{T2}
+ramp-3 = %{T2}
+
+bar-width = 7
+bar-foreground-0 = #55aa55
+bar-foreground-1 = #55aa55
+bar-foreground-2 = #55aa55
+bar-foreground-3 = #f5a70a
+bar-foreground-4 = #f5a70a
+bar-foreground-5 = #ff5555
+bar-gradient = true
+bar-indicator = 
+bar-indicator-font = 0
+bar-fill = 
+bar-fill-font = 2
+bar-empty = -
+bar-empty-font = 2
+bar-empty-foreground = ${colors.foreground-alt}
+
+[module/volume]
+type = internal/pulseaudio
+format-volume = <ramp-volume> <label-volume> 
+;<bar-volume>
+;format-volume-prefix = "%{T2}  "
+;format-volume-prefix-foreground = ${colors.foreground-alt}
+label-volume = %percentage%%
+label-volume-foreground = ${root.foreground}
+format-muted-prefix = "%{T2}  "
+label-muted = muted
+format-muted-foreground = ${colors.alert}
+
+ramp-volume-foreground = ${colors.foreground-alt}
+
+ramp-volume-0 = %{T2}
+ramp-volume-1 = %{T2}
+ramp-volume-2 = %{T2}
+
+bar-volume-width = 7
+bar-volume-foreground-0 = #55aa55
+bar-volume-foreground-1 = #55aa55
+bar-volume-foreground-2 = #55aa55
+bar-volume-foreground-3 = #f5a70a
+bar-volume-foreground-4 = #f5a70a
+bar-volume-foreground-5 = #ff5555
+bar-volume-gradient = true
+bar-volume-indicator = 
+bar-volume-indicator-font = 0
+bar-volume-fill = 
+bar-volume-fill-font = 2
+bar-volume-empty = -
+bar-volume-empty-font = 2
+bar-volume-empty-foreground = ${colors.foreground-alt}
+
+[module/battery]
+type = internal/battery
+full-at = 98
+battery = BAT1
+adapter = AC1
+poll-interval = 1
+time-format = %H:%M
+format-charging-prefix = "%{T2} "
+format-charging-prefix-foreground = ${colors.foreground-alt}
+format-charging = <label-charging>
+format-discharging = %{T2}<ramp-capacity> <label-discharging>
+format-full = %{T2}<label-full>
+format-full-foreground = ${colors.green}
+label-full = %percentage%%
+label-charging = %percentage%% %time%
+label-discharging = %percentage%% %time% %consumption%W
+format-charging-padding = 2
+format-discharging-padding = 2
+format-full-padding = 2
+
+ramp-capacity-0 = 
+ramp-capacity-0-foreground = ${colors.alert}
+ramp-capacity-foreground = ${colors.foreground-alt}
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 60
+
+format = <ramp> <label>
+format-underline = #f50a4d
+format-warn = <ramp> <label-warn>
+format-warn-underline = ${self.format-underline}
+
+label = %temperature-c%
+label-warn = %temperature-c%
+label-warn-foreground = ${colors.secondary}
+
+[module/powermenu]
+type = custom/text
+content = "%{T2}  "
+content-foreground = ${colors.red}
+content-padding = 1
+click-left = ~/.dotfiles/rofi-scripts/.config/rofi-scripts/powermenu.sh
+
+[module/watts]
+type = custom/script
+exec = ~/.dotfiles/bin/bin/consumption.sh
+interval = 0.1
+tail = true
+
+[settings]
+screenchange-reload = true
+
+; vim:ft=dosini
+
+; Action trigger; remove "";
+; format = %{A1:"action goes here" &:}<label>%{A}
