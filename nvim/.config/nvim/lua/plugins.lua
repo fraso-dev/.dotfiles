@@ -22,7 +22,7 @@ packer.startup(function(use)
   }
 
   -- use 'RRethy/vim-illuminate'
-  -- use 'raddari/last-color.nvim'
+  use 'raddari/last-color.nvim'
   use 'lukas-reineke/indent-blankline.nvim'
   use 'nvim-lualine/lualine.nvim' -- Statusline
   use 'nvim-lua/plenary.nvim' -- Common utilities
